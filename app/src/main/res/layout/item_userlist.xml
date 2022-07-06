@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/ivAvatar"
+        android:src="@drawable/ic_splashlogo"
+        android:baseline="35dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName"
+        android:text="Michael Jordan"
+        android:textColor="#294074"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ivAvatar"
+        app:layout_constraintLeft_toRightOf="@+id/ivAvatar" />
+
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUrl"
+        android:text="https://www.github.com/blabla"
+        android:textStyle="italic"
+        android:textSize="13sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginVertical="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName" />
+
+    <View
+        android:background="#0000cc"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
