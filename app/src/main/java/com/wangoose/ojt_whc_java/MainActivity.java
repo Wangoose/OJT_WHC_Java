@@ -1,12 +1,18 @@
 package com.wangoose.ojt_whc_java;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -17,55 +23,43 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    View mainView;
+    Fragment fragment_home;
+    Fragment fragment_bookmark;
 
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
+    BottomNavigationView btNaView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("User Lists");
 
-        mainView = findViewById(R.id.constview_main);
+        btNaView = findViewById(R.id.btnav_view);
 
-        rfClient = RetrofitClient.getInstance();
-        rfInterface = RetrofitClient.getRetrofitInterface();
+        fragment_home = new FragmentHome();
+        fragment_bookmark = new FragmentBookmark();
 
-        rfInterface.getUserResult().enqueue(new Callback<List<UserResult>>() {
+        btNaView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onResponse(Call<List<UserResult>> call, Response<List<UserResult>> response) {
-                if (response.isSuccessful()) {
-                    List<UserResult> uResult = response.body();
-
-                    RviewAdapter adapter = new RviewAdapter(uResult, MainActivity.this);
-                    RecyclerView rView = findViewById(R.id.recycler1);
-                    rView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    rView.setAdapter(adapter);
-                    Snackbar sb = Snackbar.make(mainView, "API Load Success", Snackbar.LENGTH_LONG);
-                    sb.setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            sb.dismiss();
-                        }
-                    });
-                    sb.show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.item_fragment_home:
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, fragment_home)
+                                .commitAllowingStateLoss();
+                        return true;
+                    case R.id.item_fragment_bookmark:
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, fragment_bookmark)
+                                .commitAllowingStateLoss();
+                        return true;
                 }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserResult>> call, Throwable t) {
-                Snackbar sb = Snackbar.make(mainView, "API Load Failed", Snackbar.LENGTH_LONG);
-                sb.setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        sb.dismiss();
-                    }
-                });
-                sb.show();
-                t.printStackTrace();
+                return true;
             }
         });
+
+        View view = btNaView.findViewById(R.id.item_fragment_home);
+        view.performClick();
     }
 }

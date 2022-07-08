@@ -24,7 +24,6 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         this.context = context;
     }
 
-
     @NonNull
     @Override
     public RviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,13 +36,16 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RviewHolder holder, int position) {
         UserResult uResult = userList.get(position);
+        ProfileSearch pSearch = new ProfileSearch(uResult.getLogin());
+//        String username = pSearch.unResult.getName().isEmpty()? "" : "tt";
 
         Glide.with(context)
-            .load(uResult.getAvatarUrl())
-            .circleCrop()
-            .into(holder.ivAvatar);
-        holder.tvName.setText(uResult.getLogin());
-        holder.tvUrl.setText(uResult.getHtmlUrl());
+                .load(uResult.getAvatarUrl())
+                .circleCrop()
+                .into(holder.ivAvatar);
+//        holder.tvName.setText(username);
+        holder.tvUserId.setText(uResult.getLogin());
+        holder.tvBio.setText(uResult.getHtmlUrl());
     }
 
     @Override
@@ -55,12 +57,13 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 class RviewHolder extends RecyclerView.ViewHolder {
 
     ImageView ivAvatar;
-    TextView tvName, tvUrl;
+    TextView tvName, tvUserId, tvBio;
 
     public RviewHolder(@NonNull View itemView) {
         super(itemView);
         ivAvatar = itemView.findViewById(R.id.ivAvatar);
         tvName = itemView.findViewById(R.id.tvName);
-        tvUrl = itemView.findViewById(R.id.tvUrl);
+        tvUserId = itemView.findViewById(R.id.tvUserId);
+        tvBio = itemView.findViewById(R.id.tvBio);
     }
 }
