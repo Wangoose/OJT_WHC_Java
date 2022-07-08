@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class UserResult {
+public class UserItem {
 
     @SerializedName("login")
     @Expose
@@ -61,6 +61,9 @@ public class UserResult {
     @SerializedName("site_admin")
     @Expose
     private Boolean siteAdmin;
+    @SerializedName("score")
+    @Expose
+    private Double score;
 
     public String getLogin() {
         return login;
@@ -204,6 +207,14 @@ public class UserResult {
 
     public void setSiteAdmin(Boolean siteAdmin) {
         this.siteAdmin = siteAdmin;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
 }

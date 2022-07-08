@@ -1,25 +1,17 @@
 package com.wangoose.ojt_whc_java;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,28 +30,33 @@ public class MainActivity extends AppCompatActivity {
         fragment_home = new FragmentHome();
         fragment_bookmark = new FragmentBookmark();
 
+        SharedPreferences sPref = getSharedPreferences("PREF_WHC", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.remove("PREF_USERNAME");
+        editor.apply();
+
+        startFragment(fragment_home);
+
         btNaView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.item_fragment_home:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_fragment_container, fragment_home)
-                                .commitAllowingStateLoss();
+                        startFragment(fragment_home);
                         return true;
                     case R.id.item_fragment_bookmark:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_fragment_container, fragment_bookmark)
-                                .commitAllowingStateLoss();
+                        startFragment(fragment_bookmark);
                         return true;
                 }
                 return true;
             }
         });
+    }
 
-        View view = btNaView.findViewById(R.id.item_fragment_home);
-        view.performClick();
+    void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, fragment)
+                .commitAllowingStateLoss();
     }
 }

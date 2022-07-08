@@ -16,10 +16,12 @@ import java.util.List;
 
 public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
-    List<UserResult> userList;
+    SearchUsersResult userList;
+    ProfileSearch pSearch;
+    List<UserItem> uItemList;
     Context context;
 
-    public RviewAdapter(List<UserResult> userList, Context context) {
+    public RviewAdapter(SearchUsersResult userList, Context context) {
         this.userList = userList;
         this.context = context;
     }
@@ -35,22 +37,15 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RviewHolder holder, int position) {
-        UserResult uResult = userList.get(position);
-        ProfileSearch pSearch = new ProfileSearch(uResult.getLogin());
-//        String username = pSearch.unResult.getName().isEmpty()? "" : "tt";
+        uItemList = userList.getItems();
+        UserItem uItem = uItemList.get(position);
 
-        Glide.with(context)
-                .load(uResult.getAvatarUrl())
-                .circleCrop()
-                .into(holder.ivAvatar);
-//        holder.tvName.setText(username);
-        holder.tvUserId.setText(uResult.getLogin());
-        holder.tvBio.setText(uResult.getHtmlUrl());
+        pSearch = new ProfileSearch(context, holder, uItem.getLogin());
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return userList.getItems().size();
     }
 }
 
