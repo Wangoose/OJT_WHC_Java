@@ -30,11 +30,6 @@ public class FragmentHome extends Fragment {
     RetrofitClient rfClient;
     RetrofitInterface rfInterface;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +53,7 @@ public class FragmentHome extends Fragment {
                         if (response.isSuccessful()) {
                             SearchUsersResult uResult = response.body();
 
-                            RviewAdapter adapter = new RviewAdapter(uResult, getActivity());
+                            RviewAdapter adapter = new RviewAdapter(uResult, getActivity(), homeView);
                             RecyclerView rView = rootView.findViewById(R.id.recycler1);
                             rView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             rView.setAdapter(adapter);

@@ -1,6 +1,5 @@
 package com.wangoose.ojt_whc_java;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,14 +10,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.util.HashMap;
-
 public class MainActivity extends AppCompatActivity {
+
+    BottomNavigationView btNaView;
 
     Fragment fragment_home;
     Fragment fragment_bookmark;
 
-    BottomNavigationView btNaView;
+    PreferenceMgmt pref_username, pref_bio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
         fragment_home = new FragmentHome();
         fragment_bookmark = new FragmentBookmark();
 
-        SharedPreferences sPref = getSharedPreferences("PREF_WHC", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sPref.edit();
-        editor.remove("PREF_USERNAME");
-        editor.apply();
+        pref_username = new PreferenceMgmt(this, "PREF_USERNAME");
+        pref_bio = new PreferenceMgmt(this, "PREF_BIO");
+        pref_username.clearPref();
+        pref_bio.clearPref();
 
         startFragment(fragment_home);
 
