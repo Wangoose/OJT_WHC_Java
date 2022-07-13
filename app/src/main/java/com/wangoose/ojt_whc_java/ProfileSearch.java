@@ -11,70 +11,74 @@ import retrofit2.Response;
 
 public class ProfileSearch {
 
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
+    BookmarkMgmt bookmark;
 
     Context context;
 
+    int followers, following;
+
+    RetrofitClient rfClient;
+    RetrofitInterface rfInterface;
+
     RviewHolder holder;
 
-    PreferenceMgmt pref_username, pref_bio;
+    String userId;
+
+    UserItem userItem;
 
     UserNameResult unResult;
 
-//    int followers, following;
-
-    String userId, username, bio;
-
-    public ProfileSearch(Context context, RviewHolder holder, String userId) {
+    public ProfileSearch(Context context, RviewHolder holder, UserItem userItem, BookmarkMgmt bookmark) {
         this.context = context;
         this.holder = holder;
-        this.userId = userId;
-        pref_username = new PreferenceMgmt(context, "PREF_USERNAME");
-        pref_bio = new PreferenceMgmt(context, "PREF_USERBIO");
-        rfClient = RetrofitClient.getInstance();
-        rfInterface = RetrofitClient.getRetrofitInterface();
+        this.userItem = userItem; // RecyclerView item[position]들을 Call-by-Reference
+        this.bookmark = bookmark;
+        userId = userItem.getLogin();
 
-        rfInterface.getUserNameResult(userId).enqueue(new Callback<UserNameResult>() {
-            @Override
-            public void onResponse(Call<UserNameResult> call, Response<UserNameResult> response) {
-                if (response.isSuccessful()) {
-                    unResult = response.body();
-                    Log.d("testlog", "API Loaded : " + userId);
-                    profileSearchResult();
+        if (!userItem.isLoaded()) { // 프로필 최초 로딩 시 Profile 상세 정보 API 호출
+            rfClient = RetrofitClient.getInstance();
+            rfInterface = RetrofitClient.getRetrofitInterface();
+
+            rfInterface.getUserNameResult(userId).enqueue(new Callback<UserNameResult>() {
+                @Override
+                public void onResponse(Call<UserNameResult> call, Response<UserNameResult> response) {
+                    if (response.isSuccessful()) {
+                        unResult = response.body();
+                        Log.d("testlog", "API Loaded : " + userId);
+                        saveUserProfile();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<UserNameResult> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<UserNameResult> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        } else {
+            setRviewItems();
+        }
     }
 
-    public void profileSearchResult() {
-
-        if (pref_username.containsPref(userId)) { // 로딩된 적이 없는 경우
-            username = unResult.getName() == null? "" : unResult.getName();
-            bio = unResult.getBio() == null? "" : unResult.getBio();
-            pref_username.setPref(userId, username);
-            pref_bio.setPref(userId, bio);
-            Log.d("testlog", "pref setted : " + username + ", "+  bio);
+    public void saveUserProfile() {
+        if (!userItem.isLoaded()) { // 최초 로딩 시 Profile 상세 정보 저장
+            userItem.setName(unResult.getName());
+            userItem.setBio(unResult.getBio());
+            userItem.setFollowers(unResult.getFollowers());
+            userItem.setFollowing(unResult.getFollowing());
+            userItem.setLoaded(true);
         }
-//        followers = unResult.getFollowers();
-//        following = unResult.getFollowing();
+        setRviewItems();
+    }
 
-        username = pref_username.getPref(userId);
-        bio = pref_bio.getPref(userId);
-
+    public void setRviewItems() {
         Glide.with(context)
-                .load(unResult.getAvatarUrl())
+                .load(userItem.getAvatarUrl())
                 .circleCrop()
                 .into(holder.ivAvatar);
 
-        holder.tvName.setText(username);
+        holder.chkbox.setChecked(bookmark.isBookmarked(userId));
+        holder.tvName.setText(userItem.getName());
         holder.tvUserId.setText(userId);
-        holder.tvBio.setText(bio);
-
+        holder.tvBio.setText(userItem.getBio());
     }
 }

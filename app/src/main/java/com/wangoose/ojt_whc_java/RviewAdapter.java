@@ -1,45 +1,52 @@
 package com.wangoose.ojt_whc_java;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
+
+    BookmarkMgmt bookmark;
+
+    FragmentBookmark fragmentBookmark;
+
+    FragmentHome fragmentHome;
+
+    List<UserItem> uItemList;
 
     SearchUsersResult userList;
 
     ProfileSearch pSearch;
 
-    List<UserItem> uItemList;
-
-    PreferenceMgmt pref_username, pref_bio, pref_bookmark;
-
     Context context;
 
-    View homeView;
+    View fragView;
 
-    public RviewAdapter(SearchUsersResult userList, Context context, View homeView) {
+    public RviewAdapter(Context context, FragmentBookmark fragmentBookmark, View fragView, SearchUsersResult userList, BookmarkMgmt bookmark) {
         this.context = context;
+        this.fragmentBookmark = fragmentBookmark;
         this.userList = userList;
-        this.homeView = homeView;
-        pref_username = new PreferenceMgmt(context, "PREF_USERNAME");
-        pref_bio = new PreferenceMgmt(context, "PREF_USERBIO");
-        pref_bookmark = new PreferenceMgmt(context, "PREF_BOOKMARK");
+        this.fragView = fragView;
+        this.bookmark = bookmark;
+    }
+
+    public RviewAdapter(Context context, FragmentHome fragmentHome, View fragView, SearchUsersResult userList, BookmarkMgmt bookmark) {
+        this.context = context;
+        this.fragmentHome = fragmentHome;
+        this.userList = userList;
+        this.fragView = fragView;
+        this.bookmark = bookmark;
     }
 
     @NonNull
@@ -56,44 +63,28 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         uItemList = userList.getItems();
         UserItem uItem = uItemList.get(position);
 
-        String userId = uItem.getLogin();
-        String username = pref_username.containsPref(userId)? pref_username.getPref(userId) : "없음";
-        String userAvatarUrl = uItem.getAvatarUrl();
+        // 받아온 정보들을 RecyclerView item[position]들에 각각 적용
+        pSearch = new ProfileSearch(context, holder, uItem, bookmark);
 
-        Log.d("testlog", "userId : " + userId + ", username : " + username);
-
-        if (pref_username.containsPref(userId)) { // 로딩된 적이 있는 경우
-            Glide.with(context)
-                    .load(userAvatarUrl)
-                    .circleCrop()
-                    .into(holder.ivAvatar);
-
-            holder.tvName.setText(username);
-            holder.tvUserId.setText(userId);
-            holder.tvBio.setText(pref_bio.getPref(userId));
-        } else { // 로딩된 적이 없는 경우
-            pSearch = new ProfileSearch(context, holder, userId);
-        }
-
-        // RecyclerView 스크롤시 CheckBox 상태 유지, 참고 : https://soulduse.tistory.com/53
+        // RecyclerView 스크롤시 CheckBox 상태 유지, reference : https://soulduse.tistory.com/53
         holder.chkbox.setOnCheckedChangeListener(null);
 
-        holder.chkbox.setChecked(pref_bookmark.containsPref(userId));
-
-        holder.chkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.chkbox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 String msg = "";
-                if (isChecked) {
-                    pref_bookmark.setPref(userId, userAvatarUrl);
+                if (holder.chkbox.isChecked()) {
+                    bookmark.addBookmark(uItem.getLogin());
                     holder.chkbox.setChecked(true);
+                    bookmarkManager("add", uItem, userList.isBookmarkList());
                     msg += "Bookmark added";
                 } else {
-                    pref_bookmark.removePref(userId);
+                    bookmark.removeBookmark(uItem.getLogin());
                     holder.chkbox.setChecked(false);
+                    bookmarkManager("delete", uItem, userList.isBookmarkList());
                     msg += "Bookmark deleted";
                 }
-                Snackbar sb = Snackbar.make(homeView, msg, Snackbar.LENGTH_SHORT);
+                Snackbar sb = Snackbar.make(fragView, msg, Snackbar.LENGTH_SHORT);
                 sb.setAction("OK", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -109,6 +100,24 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     @Override
     public int getItemCount() {
         return userList.getItems().size();
+    }
+
+    void bookmarkManager(String task, UserItem target, boolean isBookmarkFragment) {
+
+        switch (task) {
+            case "add" :
+                if (isBookmarkFragment)
+                    fragmentBookmark.addBookmark(target);
+                else
+                    fragmentHome.addBookmark(target);
+                break;
+            case "delete" :
+                if (isBookmarkFragment)
+                    fragmentBookmark.deleteBookmark(target.getLogin());
+                else
+                    fragmentHome.deleteBookmark(target.getLogin());
+                break;
+        }
     }
 }
 

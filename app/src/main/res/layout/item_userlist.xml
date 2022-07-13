@@ -63,6 +63,7 @@
         android:id="@+id/chkbox_star"
         android:button="@android:color/transparent"
         android:background="@drawable/ic_star"
+        android:checked="false"
         android:layout_marginTop="30dp"
         android:layout_marginRight="15dp"
         app:layout_constraintRight_toRightOf="parent"

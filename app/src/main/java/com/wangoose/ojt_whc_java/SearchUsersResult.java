@@ -1,13 +1,17 @@
 
 package com.wangoose.ojt_whc_java;
 
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 @Generated("jsonschema2pojo")
-public class SearchUsersResult {
+public class SearchUsersResult implements Serializable {
 
     @SerializedName("total_count")
     @Expose
@@ -18,6 +22,8 @@ public class SearchUsersResult {
     @SerializedName("items")
     @Expose
     private List<UserItem> items = null;
+
+    private boolean isBookmark = false;
 
     public Integer getTotalCount() {
         return totalCount;
@@ -43,4 +49,13 @@ public class SearchUsersResult {
         this.items = items;
     }
 
+    public void createEmptyItems() { items = new ArrayList<UserItem>(); }
+
+    public void addItems(UserItem target) { items.add(target); }
+
+    public void removeItems(int index) { items.remove(index); }
+
+    public void setBookmarkList(boolean signal) { isBookmark = signal; }
+
+    public boolean isBookmarkList() { return isBookmark; }
 }

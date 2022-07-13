@@ -4,8 +4,10 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Generated("jsonschema2pojo")
-public class UserItem {
+public class UserItem implements Serializable {
 
     @SerializedName("login")
     @Expose
@@ -64,6 +66,59 @@ public class UserItem {
     @SerializedName("score")
     @Expose
     private Double score;
+
+    // UserNameResult에서 불러온 값들 저장 + getter setter
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("bio")
+    @Expose
+    private String bio;
+    @SerializedName("followers")
+    @Expose
+    private Integer followers;
+    @SerializedName("following")
+    @Expose
+    private Integer following;
+
+    // 상세 정보들이 저장된 프로필인지 상태 판단
+    private boolean loaded = false;
+
+    public void setLoaded(boolean flag) { loaded = flag; }
+
+    public boolean isLoaded() { return loaded; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Integer getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Integer followers) {
+        this.followers = followers;
+    }
+
+    public Integer getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Integer following) {
+        this.following = following;
+    }
 
     public String getLogin() {
         return login;

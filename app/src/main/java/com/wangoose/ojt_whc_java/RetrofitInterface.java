@@ -25,5 +25,12 @@ public interface RetrofitInterface {
             "Authorization: " + token
     })
     @GET("/users/{username}")
+    Call<UserItem> getUserNameResultToItems(@Path("username") String username);
+
+    @Headers({
+            "accept: application/vnd.github+json",
+            "Authorization: " + token
+    })
+    @GET("/users/{username}")
     Call<UserNameResult> getUserNameResult(@Path("username") String username);
 }

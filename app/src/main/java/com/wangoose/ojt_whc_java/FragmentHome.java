@@ -21,14 +21,20 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
 
-    View homeView;
-
-    TextView tvMainInfo;
-
-    SearchView searchView;
+    BookmarkMgmt bookmark;
 
     RetrofitClient rfClient;
     RetrofitInterface rfInterface;
+
+    SearchView searchView;
+
+    TextView tvMainInfo;
+
+    View homeView;
+
+    public FragmentHome(BookmarkMgmt bookmark) {
+        this.bookmark = bookmark;
+    }
 
     @Nullable
     @Override
@@ -53,7 +59,7 @@ public class FragmentHome extends Fragment {
                         if (response.isSuccessful()) {
                             SearchUsersResult uResult = response.body();
 
-                            RviewAdapter adapter = new RviewAdapter(uResult, getActivity(), homeView);
+                            RviewAdapter adapter = new RviewAdapter(getActivity(), FragmentHome.this, homeView, uResult, bookmark);
                             RecyclerView rView = rootView.findViewById(R.id.recycler1);
                             rView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             rView.setAdapter(adapter);
@@ -95,5 +101,13 @@ public class FragmentHome extends Fragment {
             }
         });
         return rootView;
+    }
+
+    void addBookmark(UserItem target) {
+        ((MainActivity) requireActivity()).addBookmark(target);
+    }
+
+    void deleteBookmark(String target) {
+        ((MainActivity) requireActivity()).deleteBookmark(target);
     }
 }
