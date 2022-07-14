@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         bookmark = new BookmarkMgmt(getApplicationContext());
 
         Intent intent = getIntent();
-        userItem = (UserItem) intent.getSerializableExtra("userItem");
+        userItem = (UserItem) intent.getParcelableExtra("userItem");
 
         btnWebProfile = findViewById(R.id.btnWebProfile);
 

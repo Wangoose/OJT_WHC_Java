@@ -1,17 +1,19 @@
 
 package com.wangoose.ojt_whc_java;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
-public class SearchUsersResult implements Serializable {
+public class SearchUsersResult implements Parcelable {
 
     @SerializedName("total_count")
     @Expose
@@ -21,9 +23,41 @@ public class SearchUsersResult implements Serializable {
     private Boolean incompleteResults;
     @SerializedName("items")
     @Expose
-    private List<UserItem> items = null;
+    private List<UserItem> items = new ArrayList<>();
 
     private boolean isBookmark = false;
+
+    protected SearchUsersResult(List<UserItem> items) {
+        this.items = items;
+    }
+
+    protected SearchUsersResult(Parcel source) {
+        source.readTypedList(items, UserItem.CREATOR);
+        isBookmark = source.readBoolean();
+    }
+
+    public static final Creator<SearchUsersResult> CREATOR = new Creator<SearchUsersResult>() {
+        @Override
+        public SearchUsersResult createFromParcel(Parcel source) {
+            return new SearchUsersResult(source);
+        }
+
+        @Override
+        public SearchUsersResult[] newArray(int size) {
+            return new SearchUsersResult[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(items);
+        dest.writeBoolean(isBookmark);
+    }
 
     public Integer getTotalCount() {
         return totalCount;

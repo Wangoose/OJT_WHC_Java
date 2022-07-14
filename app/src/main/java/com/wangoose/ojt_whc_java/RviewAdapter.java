@@ -1,7 +1,6 @@
 package com.wangoose.ojt_whc_java;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +20,17 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
     BookmarkMgmt bookmark;
 
+    Context context;
+
     FragmentBookmark fragmentBookmark;
 
     FragmentHome fragmentHome;
 
     List<UserItem> uItemList;
 
-    SearchUsersResult userList;
-
     ProfileSearch pSearch;
 
-    Context context;
+    SearchUsersResult userList;
 
     View fragView;
 

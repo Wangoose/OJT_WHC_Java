@@ -15,8 +15,6 @@ public class ProfileSearch {
 
     Context context;
 
-    int followers, following;
-
     RetrofitClient rfClient;
     RetrofitInterface rfInterface;
 

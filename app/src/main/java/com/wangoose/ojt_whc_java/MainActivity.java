@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        bookmarkUserList = (SearchUsersResult) intent.getSerializableExtra("bookmarkUserList");
+        bookmarkUserList = (SearchUsersResult) intent.getParcelableExtra("bookmarkUserList");
 
         bookmark = new BookmarkMgmt(getApplicationContext());
 
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     else
                         ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
                 }
-            }, 300);
+            }, 50);
         }
     }
 

@@ -24,13 +24,13 @@ public class FragmentBookmark extends Fragment {
 
     View bookmarkView;
 
-        public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
+    public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
             FragmentBookmark fb = new FragmentBookmark();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("bookmarkUserList", bookmarkUserList);
+            bundle.putParcelable("bookmarkUserList", bookmarkUserList);
             fb.setArguments(bundle);
             return fb;
-        }
+    }
 
     @Nullable
     @Override
@@ -38,7 +38,7 @@ public class FragmentBookmark extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_bookmark, container, false);
 
         if (getArguments() != null)
-            bookmarkUserList = (SearchUsersResult) getArguments().getSerializable("bookmarkUserList");
+            bookmarkUserList = (SearchUsersResult) getArguments().getParcelable("bookmarkUserList");
 
         bookmark = new BookmarkMgmt(requireActivity());
 

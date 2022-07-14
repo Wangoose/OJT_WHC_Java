@@ -1,13 +1,15 @@
 package com.wangoose.ojt_whc_java;
 
-import javax.annotation.Generated;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
-public class UserItem implements Serializable {
+public class UserItem implements Parcelable {
 
     @SerializedName("login")
     @Expose
@@ -80,6 +82,44 @@ public class UserItem implements Serializable {
     @SerializedName("following")
     @Expose
     private Integer following;
+
+    protected UserItem(Parcel source) {
+        login = source.readString();
+        avatarUrl = source.readString();
+        htmlUrl = source.readString();
+        name = source.readString();
+        bio = source.readString();
+        followers = source.readInt();
+        following = source.readInt();
+    }
+
+    public static final Creator<UserItem> CREATOR = new Creator<UserItem>() {
+        @Override
+        public UserItem createFromParcel(Parcel source) {
+            return new UserItem(source);
+        }
+
+        @Override
+        public UserItem[] newArray(int size) {
+            return new UserItem[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(login);
+        dest.writeString(avatarUrl);
+        dest.writeString(htmlUrl);
+        dest.writeString(name);
+        dest.writeString(bio);
+        dest.writeInt(followers);
+        dest.writeInt(following);
+    }
 
     // 상세 정보들이 저장된 프로필인지 상태 판단
     private boolean loaded = false;
