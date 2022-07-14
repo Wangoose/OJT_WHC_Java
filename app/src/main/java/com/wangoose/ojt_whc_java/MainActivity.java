@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.item_fragment_bookmark:
                         if (fragment_bookmark == null) {
-                            fragment_bookmark = new FragmentBookmark(bookmarkUserList);
+                            fragment_bookmark = new FragmentBookmark().newInstance(bookmarkUserList);
                             fragmentManager.beginTransaction()
                                     .add(R.id.main_fragment_container, fragment_bookmark, "BOOKMARK")
                                     .commit();

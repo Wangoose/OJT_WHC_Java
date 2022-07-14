@@ -12,14 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Objects;
-
 public class FragmentBookmark extends Fragment {
 
     BookmarkMgmt bookmark;
-
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
 
     RviewAdapter adapter;
 
@@ -29,17 +24,21 @@ public class FragmentBookmark extends Fragment {
 
     View bookmarkView;
 
-    public FragmentBookmark(SearchUsersResult bookmarkUserList) {
-        this.bookmarkUserList = bookmarkUserList;
-
-        rfClient = RetrofitClient.getInstance();
-        rfInterface = RetrofitClient.getRetrofitInterface();
-    }
+        public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
+            FragmentBookmark fb = new FragmentBookmark();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("bookmarkUserList", bookmarkUserList);
+            fb.setArguments(bundle);
+            return fb;
+        }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_bookmark, container, false);
+
+        if (getArguments() != null)
+            bookmarkUserList = (SearchUsersResult) getArguments().getSerializable("bookmarkUserList");
 
         bookmark = new BookmarkMgmt(requireActivity());
 
