@@ -49,10 +49,16 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() { // 2초 delay 후 인텐트 시작
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                intent.putExtra("bookmarkUserList", bookmarkUserList);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                try {
+                    bookmarkThread.join();
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    intent.putExtra("bookmarkUserList", bookmarkUserList);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    startActivity(intent);
+                    finish();
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
             }
         }, 2000); // Handler()
     } // onCreate()

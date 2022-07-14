@@ -1,6 +1,7 @@
 package com.wangoose.ojt_whc_java;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -64,7 +66,18 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         UserItem uItem = uItemList.get(position);
 
         // 받아온 정보들을 RecyclerView item[position]들에 각각 적용
-        pSearch = new ProfileSearch(context, holder, uItem, bookmark);
+        pSearch = new ProfileSearch(context, holder, uItem);
+
+        holder.recycler_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int requestCode = userList.isBookmarkList() ? 1 : 0;
+                if (requestCode == 1)
+                    fragmentBookmark.goProfile(uItem, requestCode);
+                else
+                    fragmentHome.goProfile(uItem, requestCode);
+            }
+        });
 
         // RecyclerView 스크롤시 CheckBox 상태 유지, reference : https://soulduse.tistory.com/53
         holder.chkbox.setOnCheckedChangeListener(null);
@@ -103,15 +116,14 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     }
 
     void bookmarkManager(String task, UserItem target, boolean isBookmarkFragment) {
-
         switch (task) {
-            case "add" :
+            case "add":
                 if (isBookmarkFragment)
                     fragmentBookmark.addBookmark(target);
                 else
                     fragmentHome.addBookmark(target);
                 break;
-            case "delete" :
+            case "delete":
                 if (isBookmarkFragment)
                     fragmentBookmark.deleteBookmark(target.getLogin());
                 else
@@ -124,12 +136,14 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 class RviewHolder extends RecyclerView.ViewHolder {
 
     CheckBox chkbox;
+    ConstraintLayout recycler_item;
     ImageView ivAvatar;
     TextView tvName, tvUserId, tvBio;
 
     public RviewHolder(@NonNull View itemView) {
         super(itemView);
         chkbox = itemView.findViewById(R.id.chkbox_star);
+        recycler_item = itemView.findViewById(R.id.recycler_item);
         ivAvatar = itemView.findViewById(R.id.ivAvatar);
         tvName = itemView.findViewById(R.id.tvName);
         tvUserId = itemView.findViewById(R.id.tvUserId);

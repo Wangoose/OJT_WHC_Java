@@ -28,12 +28,12 @@ public class ProfileSearch {
 
     UserNameResult unResult;
 
-    public ProfileSearch(Context context, RviewHolder holder, UserItem userItem, BookmarkMgmt bookmark) {
+    public ProfileSearch(Context context, RviewHolder holder, UserItem userItem) {
         this.context = context;
         this.holder = holder;
         this.userItem = userItem; // RecyclerView item[position]들을 Call-by-Reference
-        this.bookmark = bookmark;
         userId = userItem.getLogin();
+        bookmark = new BookmarkMgmt(context);
 
         if (!userItem.isLoaded()) { // 프로필 최초 로딩 시 Profile 상세 정보 API 호출
             rfClient = RetrofitClient.getInstance();

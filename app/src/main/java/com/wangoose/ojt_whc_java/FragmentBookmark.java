@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 public class FragmentBookmark extends Fragment {
 
     BookmarkMgmt bookmark;
@@ -27,8 +29,7 @@ public class FragmentBookmark extends Fragment {
 
     View bookmarkView;
 
-    public FragmentBookmark(BookmarkMgmt bookmark, SearchUsersResult bookmarkUserList) {
-        this.bookmark = bookmark;
+    public FragmentBookmark(SearchUsersResult bookmarkUserList) {
         this.bookmarkUserList = bookmarkUserList;
 
         rfClient = RetrofitClient.getInstance();
@@ -40,13 +41,14 @@ public class FragmentBookmark extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_bookmark, container, false);
 
+        bookmark = new BookmarkMgmt(requireActivity());
+
         bookmarkView = rootView.findViewById(R.id.view_fragment_bookmark);
 
         tvBookmarkInfo = rootView.findViewById(R.id.tvBookmarkInfo);
 
-        if (bookmarkUserList.getItems().size() != 0) {
+        if (bookmarkUserList.getItems().size() != 0)
             tvBookmarkInfo.setText("");
-        }
 
         adapter = new RviewAdapter(getActivity(), FragmentBookmark.this, bookmarkView, bookmarkUserList, bookmark);
         RecyclerView rView = rootView.findViewById(R.id.recycler2);
@@ -62,5 +64,16 @@ public class FragmentBookmark extends Fragment {
 
     void deleteBookmark(String target) {
         ((MainActivity) requireActivity()).deleteBookmark(target);
+    }
+
+    void refreshBookmark(SearchUsersResult bookmarkUserList) {
+        this.bookmarkUserList = bookmarkUserList;
+        if (bookmarkUserList.getItems().size() != 0)
+            tvBookmarkInfo.setText("");
+        adapter.notifyDataSetChanged();
+    }
+
+    void goProfile(UserItem userItem, int requestCode) {
+        ((MainActivity) requireActivity()).goProfile(userItem, requestCode);
     }
 }
