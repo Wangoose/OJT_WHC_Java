@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +12,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentBookmark extends Fragment {
 
@@ -28,15 +30,12 @@ public class FragmentBookmark extends Fragment {
 
     View bookmarkView;
 
-    boolean isBackStack = false;
-
-    public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList, boolean isBackStack) {
-            FragmentBookmark fb = new FragmentBookmark();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("bookmarkUserList", bookmarkUserList);
-            bundle.putBoolean("isBackStack", isBackStack);
-            fb.setArguments(bundle);
-            return fb;
+    public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
+        FragmentBookmark fb = new FragmentBookmark();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("bookmarkUserList", bookmarkUserList);
+        fb.setArguments(bundle);
+        return fb;
     }
 
     @Nullable
@@ -44,10 +43,8 @@ public class FragmentBookmark extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_bookmark, container, false);
 
-        if (getArguments() != null) {
+        if (getArguments() != null)
             bookmarkUserList = (SearchUsersResult) getArguments().getParcelable("bookmarkUserList");
-            isBackStack = getArguments().getBoolean("isBackStack");
-        }
 
         bookmark = new BookmarkMgmt(requireActivity());
 
@@ -58,7 +55,7 @@ public class FragmentBookmark extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchBookmark(bookmarkUserList, query);
+                searchBookmark(bookmarkUserList.getItems(), query);
                 return true;
             }
 
@@ -68,12 +65,11 @@ public class FragmentBookmark extends Fragment {
             }
         });
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchView.findViewById(androidx.appcompat.R.id.search_close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onClose() {
-                if (isBackStack)
-                    Toast.makeText(requireActivity(), "응애 나 백스택", Toast.LENGTH_SHORT).show();
-                return false;
+            public void onClick(View v) {
+                bookmarkUserList = ((MainActivity) requireActivity()).getBookmarkUserList();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -98,16 +94,11 @@ public class FragmentBookmark extends Fragment {
         ((MainActivity) requireActivity()).deleteBookmark(target);
     }
 
-    void searchBookmark(SearchUsersResult bookmarkUserList, String target) {
-        SearchUsersResult bookmarkSearchResult = ((MainActivity) requireActivity()).searchBookmark(bookmarkUserList, target);
-
-        FragmentBookmark fragmentBookmark = new FragmentBookmark().newInstance(bookmarkSearchResult, true);
-
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.view_fragment_bookmark, fragmentBookmark, "BOOKMARK")
-                .addToBackStack(null)
-                .commit();
-
+    void searchBookmark(List<UserItem> searchUserList, String target) {
+        SearchUsersResult searchResult = ((MainActivity) requireActivity()).searchBookmark(searchUserList, target);
+        adapter.uItemList.clear();
+        adapter.uItemList.addAll(searchResult.getItems());
+        adapter.notifyDataSetChanged();
     }
 
     void refreshBookmark(SearchUsersResult bookmarkUserList) {

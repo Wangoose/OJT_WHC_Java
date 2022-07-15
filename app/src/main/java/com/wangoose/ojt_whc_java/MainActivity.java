@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.item_fragment_bookmark:
                         if (fragmentBookmark == null) {
-                            fragmentBookmark = new FragmentBookmark().newInstance(bookmarkUserList, false);
+                            fragmentBookmark = new FragmentBookmark().newInstance(bookmarkUserList);
                             fragmentManager.beginTransaction()
                                     .add(R.id.main_fragment_container, fragmentBookmark, "BOOKMARK")
                                     .commit();
@@ -158,10 +158,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    SearchUsersResult searchBookmark(SearchUsersResult bookmarkUserList, String target) {
-        List<UserItem> userItems = bookmarkUserList.getItems();
+    SearchUsersResult getBookmarkUserList() {
+        return bookmarkUserList;
+    }
+
+    SearchUsersResult searchBookmark(List<UserItem> searchUserList, String target) {
         List<UserItem> resultItems = new ArrayList<>();
-        for (UserItem uItem : userItems) {
+        for (UserItem uItem : searchUserList) {
             if (uItem.getLogin().equals(target)) {
                 resultItems.add(uItem);
             }

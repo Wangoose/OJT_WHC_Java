@@ -37,7 +37,8 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     public RviewAdapter(Context context, FragmentBookmark fragmentBookmark, View fragView, SearchUsersResult userList, BookmarkMgmt bookmark) {
         this.context = context;
         this.fragmentBookmark = fragmentBookmark;
-        this.userList = userList;
+        this.userList = new SearchUsersResult(userList.getItems());
+        this.userList.setBookmarkList(true);
         this.fragView = fragView;
         this.bookmark = bookmark;
     }
@@ -45,7 +46,8 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     public RviewAdapter(Context context, FragmentHome fragmentHome, View fragView, SearchUsersResult userList, BookmarkMgmt bookmark) {
         this.context = context;
         this.fragmentHome = fragmentHome;
-        this.userList = userList;
+        this.userList = new SearchUsersResult(userList.getItems());
+        this.userList.setBookmarkList(false);
         this.fragView = fragView;
         this.bookmark = bookmark;
     }
@@ -107,6 +109,11 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
                 sb.show();
             }
         });
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     @Override
