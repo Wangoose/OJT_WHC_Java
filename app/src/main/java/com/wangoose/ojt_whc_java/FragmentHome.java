@@ -47,7 +47,7 @@ public class FragmentHome extends Fragment {
 
         tvMainInfo = rootView.findViewById(R.id.tvMainInfo);
 
-        searchView = requireActivity().findViewById(R.id.search_view);
+        searchView = rootView.findViewById(R.id.search_view_home);
 
         rfClient = RetrofitClient.getInstance();
         rfInterface = RetrofitClient.getRetrofitInterface();

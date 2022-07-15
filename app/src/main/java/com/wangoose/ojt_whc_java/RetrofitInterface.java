@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 public interface RetrofitInterface {
 
     // Github API Personal token
-    String token = "token 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";
+    String token = "token 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";
 
     @Headers({
             "accept: application/vnd.github+json",

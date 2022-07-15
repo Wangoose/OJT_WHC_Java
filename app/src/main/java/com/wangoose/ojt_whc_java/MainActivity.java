@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView btNaView;
 
-    Fragment fragment_home;
-    Fragment fragment_bookmark;
+    Fragment fragmentHome;
+    Fragment fragmentBookmark;
 
     FragmentManager fragmentManager;
 
@@ -53,40 +54,42 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_fragment_home:
-                        if (fragment_home == null) {
-                            fragment_home = new FragmentHome();
+                        if (fragmentHome == null) {
+                            fragmentHome = new FragmentHome();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.main_fragment_container, fragment_home, "HOME")
+                                    .add(R.id.main_fragment_container, fragmentHome, "HOME")
                                     .commit();
                             // commit() 작업을 즉시 실행시킴
                             // findFragmentByTag 적용을 위해 필요함. reference : https://eitu97.tistory.com/31
                             fragmentManager.executePendingTransactions();
                         }
 
-                        if (fragment_home != null) {
+                        if (fragmentHome != null) {
                             // 해당 프래그먼트의 어댑터뷰 refresh
                             ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
-                            fragmentManager.beginTransaction().show(fragment_home).commit();
+                            fragmentManager.beginTransaction().show(fragmentHome).commit();
                         }
 
-                        if (fragment_bookmark != null)
-                            fragmentManager.beginTransaction().hide(fragment_bookmark).commit();
+                        if (fragmentBookmark != null) {
+                            fragmentManager.beginTransaction().hide(fragmentBookmark).commit();
+                        }
                         break;
                     case R.id.item_fragment_bookmark:
-                        if (fragment_bookmark == null) {
-                            fragment_bookmark = new FragmentBookmark().newInstance(bookmarkUserList);
+                        if (fragmentBookmark == null) {
+                            fragmentBookmark = new FragmentBookmark().newInstance(bookmarkUserList, false);
                             fragmentManager.beginTransaction()
-                                    .add(R.id.main_fragment_container, fragment_bookmark, "BOOKMARK")
+                                    .add(R.id.main_fragment_container, fragmentBookmark, "BOOKMARK")
                                     .commit();
                             fragmentManager.executePendingTransactions();
                         }
 
-                        if (fragment_home != null)
-                            fragmentManager.beginTransaction().hide(fragment_home).commit();
+                        if (fragmentHome != null) {
+                            fragmentManager.beginTransaction().hide(fragmentHome).commit();
+                        }
 
-                        if (fragment_bookmark != null) {
+                        if (fragmentBookmark != null) {
                             ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
-                            fragmentManager.beginTransaction().show(fragment_bookmark).commit();
+                            fragmentManager.beginTransaction().show(fragmentBookmark).commit();
                         }
                         break;
                 }
@@ -153,6 +156,19 @@ public class MainActivity extends AppCompatActivity {
                 signal = false; // escape
             }
         }
+    }
+
+    SearchUsersResult searchBookmark(SearchUsersResult bookmarkUserList, String target) {
+        List<UserItem> userItems = bookmarkUserList.getItems();
+        List<UserItem> resultItems = new ArrayList<>();
+        for (UserItem uItem : userItems) {
+            if (uItem.getLogin().equals(target)) {
+                resultItems.add(uItem);
+            }
+        }
+        SearchUsersResult bookmarkSearchResult = new SearchUsersResult(resultItems);
+        bookmarkSearchResult.setBookmarkList(true);
+        return bookmarkSearchResult;
     }
 
     void goProfile(UserItem userItem, int requestCode) {
