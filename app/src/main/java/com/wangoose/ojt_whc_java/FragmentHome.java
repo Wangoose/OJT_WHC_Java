@@ -101,6 +101,14 @@ public class FragmentHome extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
+
+        });
+
+        searchView.findViewById(androidx.appcompat.R.id.search_close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setQuery("", false);
+            }
         });
         return rootView;
     }

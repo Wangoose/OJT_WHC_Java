@@ -1,9 +1,11 @@
 package com.wangoose.ojt_whc_java;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,7 +70,10 @@ public class FragmentBookmark extends Fragment {
         searchView.findViewById(androidx.appcompat.R.id.search_close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                searchView.setQuery("", false);
                 bookmarkUserList = ((MainActivity) requireActivity()).getBookmarkUserList();
+                adapter.uItemList.clear();
+                adapter.uItemList.addAll(bookmarkUserList.getItems());
                 adapter.notifyDataSetChanged();
             }
         });
@@ -77,6 +82,10 @@ public class FragmentBookmark extends Fragment {
 
         if (bookmarkUserList.getItems().size() != 0)
             tvBookmarkInfo.setText("");
+
+        List<UserItem> newUserItems = new ArrayList<>(bookmarkUserList.getItems());
+        bookmarkUserList = new SearchUsersResult(newUserItems);
+        bookmarkUserList.setBookmarkList(true);
 
         adapter = new RviewAdapter(getActivity(), FragmentBookmark.this, bookmarkView, bookmarkUserList, bookmark);
         RecyclerView rView = rootView.findViewById(R.id.recycler2);
