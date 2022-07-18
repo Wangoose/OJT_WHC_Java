@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 import com.wangoose.ojt_whc_java.R;
-import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
+import com.wangoose.ojt_whc_java.databinding.ActivitySplashBinding;
 import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
 import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +39,16 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        // setup View Binding instance
+        ActivitySplashBinding binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         userItemParcel = new ArrayList<>();
 
         bookmark = new BookmarkMgmt(getApplicationContext());
 
-        ImageView ivLogo = findViewById(R.id.ivSplashLogo);
         Animation fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        ivLogo.startAnimation(fadeInAnim);
+        binding.ivSplashLogo.startAnimation(fadeInAnim);
 
         LoadBookmarkTask bookmarkThread = new LoadBookmarkTask();
         bookmarkThread.start();

@@ -12,6 +12,7 @@
     <string name="profileActivityUserBioIsNull">(There is no comment)</string>
     <string name="profileTextViewFollowers">followers</string>
     <string name="profileTextViewFollowing">following</string>
+    <string name="profileButtonGoGithubUrl">User profile on Github</string>
     <!--Toast Messages-->
     <string name="toastSplashLoading">Loading…</string>
     <string name="toastNoSearchResult">There is no search result</string>

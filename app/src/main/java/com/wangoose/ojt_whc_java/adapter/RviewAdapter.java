@@ -44,6 +44,7 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         this.fragmentBookmark = fragmentBookmark;
         this.userList = new SearchUsersResult(userList.getItems());
         this.userList.setBookmarkList(true);
+        this.uItemList = userList.getItems();
         this.fragView = fragView;
         this.bookmark = bookmark;
     }
@@ -53,6 +54,7 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         this.fragmentHome = fragmentHome;
         this.userList = new SearchUsersResult(userList.getItems());
         this.userList.setBookmarkList(false);
+        this.uItemList = userList.getItems();
         this.fragView = fragView;
         this.bookmark = bookmark;
     }
@@ -68,7 +70,6 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RviewHolder holder, int position) {
-        uItemList = userList.getItems();
         UserItem uItem = uItemList.get(position);
 
         // 받아온 정보들을 RecyclerView item[position]들에 각각 적용

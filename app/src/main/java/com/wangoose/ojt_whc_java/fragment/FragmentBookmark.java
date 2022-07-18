@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,29 +11,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 import com.wangoose.ojt_whc_java.R;
-import com.wangoose.ojt_whc_java.adapter.RviewAdapter;
 import com.wangoose.ojt_whc_java.activity.MainActivity;
+import com.wangoose.ojt_whc_java.adapter.RviewAdapter;
+import com.wangoose.ojt_whc_java.databinding.FragmentBookmarkBinding;
 import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
 import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentBookmark extends Fragment {
 
+    private FragmentBookmarkBinding binding;
+
     BookmarkMgmt bookmark;
 
     RviewAdapter adapter;
 
     SearchUsersResult bookmarkUserList;
-
-    SearchView searchView;
-
-    TextView tvBookmarkInfo;
 
     public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
         FragmentBookmark fb = new FragmentBookmark();
@@ -47,16 +44,14 @@ public class FragmentBookmark extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_bookmark, container, false);
+        binding = FragmentBookmarkBinding.inflate(inflater, container, false);
 
         if (getArguments() != null)
             bookmarkUserList = (SearchUsersResult) getArguments().getParcelable("bookmarkUserList");
 
         bookmark = new BookmarkMgmt(requireActivity());
 
-        searchView = rootView.findViewById(R.id.searchViewBookmark);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchViewBookmark.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchBookmark(bookmarkUserList.getItems(), query);
@@ -69,10 +64,10 @@ public class FragmentBookmark extends Fragment {
             }
         });
 
-        searchView.findViewById(androidx.appcompat.R.id.search_close_btn).setOnClickListener(new View.OnClickListener() {
+        binding.searchViewBookmark.findViewById(androidx.appcompat.R.id.search_close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setQuery("", false);
+                binding.searchViewBookmark.setQuery("", false);
                 bookmarkUserList = ((MainActivity) requireActivity()).getBookmarkUserList();
                 if (adapter.uItemList != null)
                     adapter.uItemList.clear();
@@ -82,10 +77,8 @@ public class FragmentBookmark extends Fragment {
             }
         });
 
-        tvBookmarkInfo = rootView.findViewById(R.id.tvBookmarkInfo);
-
         if (bookmarkUserList.getItems().size() != 0)
-            tvBookmarkInfo.setText("");
+            binding.tvBookmarkInfo.setText("");
 
         if (bookmarkUserList.getItems().size() == 0)
             bookmarkUserList.createEmptyItems();
@@ -94,16 +87,15 @@ public class FragmentBookmark extends Fragment {
         bookmarkUserList = new SearchUsersResult(newUserItems);
         bookmarkUserList.setBookmarkList(true);
 
-        adapter = new RviewAdapter(getActivity(),
+        adapter = new RviewAdapter(requireActivity(),
                 FragmentBookmark.this,
-                                    rootView.findViewById(R.id.viewFragmentBookmark),
+                                    binding.viewFragmentBookmark,
                                     bookmarkUserList,
                                     bookmark);
-        RecyclerView rView = rootView.findViewById(R.id.recycler2);
-        rView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rView.setAdapter(adapter);
+        binding.recycler2.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.recycler2.setAdapter(adapter);
 
-        return rootView;
+        return binding.getRoot();
     }
 
     public void addBookmark(UserItem target) {
@@ -127,7 +119,7 @@ public class FragmentBookmark extends Fragment {
 
     public void refreshBookmark(SearchUsersResult bookmarkUserList) {
         this.bookmarkUserList = bookmarkUserList;
-        tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : requireActivity().getString(R.string.bookmarkSearchViewMessage));
+        binding.tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : requireActivity().getString(R.string.bookmarkSearchViewMessage));
         if (adapter.uItemList == null)
             adapter.uItemList = new ArrayList<>();
         else

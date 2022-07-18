@@ -3,11 +3,10 @@ package com.wangoose.ojt_whc_java.adapter;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
-import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
-import com.wangoose.ojt_whc_java.retrofit.RetrofitInterface;
 import com.wangoose.ojt_whc_java.dto.UserItem;
 import com.wangoose.ojt_whc_java.dto.UserNameResult;
 import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,8 +18,7 @@ public class ProfileSearch {
 
     Context context;
 
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
+    RetrofitClient rfClient = RetrofitClient.getInstance();
 
     RviewHolder holder;
 
@@ -38,10 +36,7 @@ public class ProfileSearch {
         bookmark = new BookmarkMgmt(context);
 
         if (!userItem.isLoaded()) { // 프로필 최초 로딩 시 Profile 상세 정보 API 호출
-            rfClient = RetrofitClient.getInstance();
-            rfInterface = RetrofitClient.getRetrofitInterface();
-
-            rfInterface.getUserNameResult(userId).enqueue(new Callback<UserNameResult>() {
+            RetrofitClient.getRetrofitInterface().getUserNameResult(userId).enqueue(new Callback<UserNameResult>() {
                 @Override
                 public void onResponse(Call<UserNameResult> call, Response<UserNameResult> response) {
                     if (response.isSuccessful()) {

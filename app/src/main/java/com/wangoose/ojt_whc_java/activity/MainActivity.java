@@ -21,14 +21,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
-import com.wangoose.ojt_whc_java.fragment.FragmentBookmark;
-import com.wangoose.ojt_whc_java.fragment.FragmentHome;
 import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.databinding.ActivityMainBinding;
 import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
 import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.fragment.FragmentBookmark;
+import com.wangoose.ojt_whc_java.fragment.FragmentHome;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     BookmarkMgmt bookmark;
-
-    BottomNavigationView btNaView;
 
     Fragment fragmentHome;
     Fragment fragmentBookmark;
@@ -52,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Intent intent = getIntent();
 
@@ -60,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
         bookmark = new BookmarkMgmt(getApplicationContext());
 
-        btNaView = findViewById(R.id.bottomNavigationView);
-
         fragmentManager = getSupportFragmentManager();
 
-        btNaView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -73,14 +70,6 @@ public class MainActivity extends AppCompatActivity {
                             // 해당 프래그먼트의 어댑터뷰 refresh
                             ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
                             fragmentManager.beginTransaction().show(fragmentHome).commit();
-                        } else {
-                            fragmentHome = new FragmentHome();
-                            fragmentManager.beginTransaction()
-                                    .add(R.id.mainFragmentContainer, fragmentHome, "HOME")
-                                    .commit();
-                            // commit() 작업을 즉시 실행시킴
-                            // findFragmentByTag 적용을 위해 필요함. reference : https://eitu97.tistory.com/31
-                            fragmentManager.executePendingTransactions();
                         }
                         if (fragmentBookmark != null) {
                             fragmentManager.beginTransaction().hide(fragmentBookmark).commit();
@@ -95,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             fragmentManager.beginTransaction()
                                     .add(R.id.mainFragmentContainer, fragmentBookmark, "BOOKMARK")
                                     .commit();
+
                             fragmentManager.executePendingTransactions();
                         }
                         if (fragmentHome != null) {
@@ -106,7 +96,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        this.findViewById(R.id.itemFragmentHome).performClick(); // onCreate - Home Fragment initialize
+        fragmentHome = new FragmentHome();
+        fragmentManager.beginTransaction()
+                .add(R.id.mainFragmentContainer, fragmentHome, "HOME")
+                .commit();
+        // commit() 작업을 즉시 실행시킴
+        // findFragmentByTag 적용을 위해 필요함. reference : https://eitu97.tistory.com/31
+        fragmentManager.executePendingTransactions();
     }
 
     @Override

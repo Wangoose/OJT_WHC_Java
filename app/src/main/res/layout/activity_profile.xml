@@ -1,152 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/view_profile"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/ivAvatar"
-        android:src="@drawable/ic_splashlogo"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/viewProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvName"
-        android:textColor="#27292f"
-        android:textStyle="bold"
-        android:textSize="35sp"
-        android:textAlignment="center"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_marginTop="25dp"
-        android:layout_marginHorizontal="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvUserId"
-        android:textColor="#57606A"
-        android:textSize="25sp"
-        android:textAlignment="center"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/chkboxStar"
-        android:button="@android:color/transparent"
-        android:background="@drawable/ic_star"
-        android:checked="false"
-        app:layout_constraintLeft_toRightOf="@+id/tvUserId"
-        app:layout_constraintTop_toTopOf="@id/tvUserId" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="25dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="#27292f"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
-    <View
-        android:id="@+id/tvHr"
-        android:background="#0000cc"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserId" />
+        <TextView
+            android:id="@+id/tvUserId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="#57606A"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvBio"
-        android:textStyle="italic"
-        android:textColor="#436686"
-        android:textSize="18sp"
-        android:maxLines="5"
-        android:ellipsize="end"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvHr"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <CheckBox
+            android:id="@+id/chkboxStar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_star"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            app:layout_constraintLeft_toRightOf="@+id/tvUserId"
+            app:layout_constraintTop_toTopOf="@id/tvUserId" />
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:id="@+id/ivPeople"
-        android:src="@drawable/ic_baseline_people_alt_24"
-        app:layout_constraintTop_toBottomOf="@+id/tvBio"
-        android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvBio" />
+        <View
+            android:id="@+id/tvHr"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="#0000cc"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserId" />
 
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvFollowers"
-        android:textColor="#27292f"
-        android:textSize="17sp"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvBio"
-        app:layout_constraintLeft_toRightOf="@+id/ivPeople" />
+        <TextView
+            android:id="@+id/tvBio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textColor="#436686"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHr" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvFollowersText"
-        android:text="@string/profileTextViewFollowers"
-        android:textSize="17sp"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintTop_toTopOf="@+id/tvFollowers"
-        app:layout_constraintLeft_toRightOf="@+id/tvFollowers" />
+        <ImageView
+            android:id="@+id/ivPeople"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_people_alt_24"
+            app:layout_constraintLeft_toLeftOf="@+id/tvBio"
+            app:layout_constraintTop_toBottomOf="@+id/tvBio" />
 
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvFollowing"
-        android:textColor="#27292f"
-        android:textSize="17sp"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvBio"
-        app:layout_constraintLeft_toRightOf="@+id/tvFollowersText" />
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="textEnd"
+            android:textColor="#27292f"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toRightOf="@+id/ivPeople"
+            app:layout_constraintTop_toBottomOf="@+id/tvBio" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/profileTextViewFollowing"
-        android:textSize="17sp"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintTop_toTopOf="@+id/tvFollowing"
-        app:layout_constraintLeft_toRightOf="@+id/tvFollowing" />
+        <TextView
+            android:id="@+id/tvFollowersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/profileTextViewFollowers"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toRightOf="@+id/tvFollowers"
+            app:layout_constraintTop_toTopOf="@+id/tvFollowers" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnWebProfile"
-        android:drawableLeft="@drawable/btn_drawable_left_custom"
-        android:paddingRight="30dp"
-        android:background="@drawable/btn_round"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvFollowers"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="User profile on Github" />
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:textAlignment="textEnd"
+            android:textColor="#27292f"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toRightOf="@+id/tvFollowersText"
+            app:layout_constraintTop_toBottomOf="@+id/tvBio" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/profileTextViewFollowing"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toRightOf="@+id/tvFollowing"
+            app:layout_constraintTop_toTopOf="@+id/tvFollowing" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWebProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/btn_round"
+            android:drawableLeft="@drawable/btn_drawable_left_custom"
+            android:paddingRight="30dp"
+            android:text="@string/profileButtonGoGithubUrl"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFollowers" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
