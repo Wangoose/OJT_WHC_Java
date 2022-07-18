@@ -40,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     SearchUsersResult bookmarkUserList;
 
-    int searchCondition = 0;
-
-    long pressedTime = 0;
+    private int searchCondition = 0;
+    private long pressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookmark = new BookmarkMgmt(getApplicationContext());
 
-        btNaView = findViewById(R.id.btnav_view);
+        btNaView = findViewById(R.id.bottomNavigationView);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.item_fragment_home:
+                    case R.id.itemFragmentHome:
                         if (fragmentHome != null) {
                             // 해당 프래그먼트의 어댑터뷰 refresh
                             ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             fragmentHome = new FragmentHome();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.main_fragment_container, fragmentHome, "HOME")
+                                    .add(R.id.mainFragmentContainer, fragmentHome, "HOME")
                                     .commit();
                             // commit() 작업을 즉시 실행시킴
                             // findFragmentByTag 적용을 위해 필요함. reference : https://eitu97.tistory.com/31
@@ -81,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
                             fragmentManager.beginTransaction().hide(fragmentBookmark).commit();
                         }
                         break;
-                    case R.id.item_fragment_bookmark:
+                    case R.id.itemFragmentBookmark:
                         if (fragmentBookmark != null) {
                             ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
                             fragmentManager.beginTransaction().show(fragmentBookmark).commit();
                         } else {
                             fragmentBookmark = new FragmentBookmark().newInstance(bookmarkUserList);
                             fragmentManager.beginTransaction()
-                                    .add(R.id.main_fragment_container, fragmentBookmark, "BOOKMARK")
+                                    .add(R.id.mainFragmentContainer, fragmentBookmark, "BOOKMARK")
                                     .commit();
                             fragmentManager.executePendingTransactions();
                         }
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        View navBtnHome = btNaView.findViewById(R.id.item_fragment_home);
+        View navBtnHome = btNaView.findViewById(R.id.itemFragmentHome);
         navBtnHome.performClick();
     }
 
@@ -130,13 +129,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() { // reference : https://best421.tistory.com/71
         if (pressedTime == 0) {
-            Toast.makeText(getApplicationContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.toastBackPressedMessage, Toast.LENGTH_SHORT).show();
             pressedTime = System.currentTimeMillis();
         } else {
             int seconds = (int) (System.currentTimeMillis() - pressedTime);
 
             if (seconds > 2000) {
-                Toast.makeText(getApplicationContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.toastBackPressedMessage, Toast.LENGTH_SHORT).show();
                 pressedTime = 0;
             } else {
                 super.onBackPressed();
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                         }, 50);
                     }
                 }
-    });
+            });
 
     void addBookmark(UserItem target) {
         bookmarkUserList.addItems(target);
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-    // reference : https://blogdeveloperspot.blogspot.com/2022/03/android-edittext-android-simple.html
+        // reference : https://blogdeveloperspot.blogspot.com/2022/03/android-edittext-android-simple.html
         View focusView = getCurrentFocus();
         if (focusView != null) {
             Rect rect = new Rect();

@@ -17,8 +17,7 @@ public interface RetrofitInterface {
     })
     @GET("/search/users")
     Call<SearchUsersResult>
-    getSearchResult(@Query("q") String q, @Query("per_page") String per_page,
-                    @Query("page") String page);
+    getSearchResult(@Query("q") String q, @Query("per_page") int per_page);
 
     @Headers({
             "accept: application/vnd.github+json",

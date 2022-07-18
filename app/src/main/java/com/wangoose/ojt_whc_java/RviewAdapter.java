@@ -91,21 +91,21 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
                     bookmark.addBookmark(uItem.getLogin());
                     holder.chkbox.setChecked(true);
                     bookmarkManager("add", uItem, userList.isBookmarkList());
-                    msg += "Bookmark added";
+                    msg += context.getString(R.string.snackBarBookmarkAddedMessage);
                 } else {
                     bookmark.removeBookmark(uItem.getLogin());
                     holder.chkbox.setChecked(false);
                     bookmarkManager("delete", uItem, userList.isBookmarkList());
-                    msg += "Bookmark deleted";
+                    msg += context.getString(R.string.snackBarBookmarkDeletedMessage);
                 }
                 Snackbar sb = Snackbar.make(fragView, msg, Snackbar.LENGTH_SHORT);
-                sb.setAction("OK", new View.OnClickListener() {
+                sb.setAction(context.getString(R.string.snackBarConfirmMessage), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         sb.dismiss();
                     }
                 });
-                sb.setAnchorView(R.id.btnav_view);
+                sb.setAnchorView(R.id.bottomNavigationView);
                 sb.show();
             }
         });
@@ -148,8 +148,8 @@ class RviewHolder extends RecyclerView.ViewHolder {
 
     public RviewHolder(@NonNull View itemView) {
         super(itemView);
-        chkbox = itemView.findViewById(R.id.chkbox_star);
-        recycler_item = itemView.findViewById(R.id.recycler_item);
+        chkbox = itemView.findViewById(R.id.chkboxStar);
+        recycler_item = itemView.findViewById(R.id.recyclerItem);
         ivAvatar = itemView.findViewById(R.id.ivAvatar);
         tvName = itemView.findViewById(R.id.tvName);
         tvUserId = itemView.findViewById(R.id.tvUserId);

@@ -1,5 +1,30 @@
 <resources>
+    <!--Manifests-->
     <string name="app_name">OJT_WHC_Java</string>
-    <string name="menuSearchByUserId">Search by User Id</string>
-    <string name="menuSearchByUsername">Search by Username</string>
+    <!--Menu Options Items-->
+    <string name="menuItemsSearchByUserId">Search by User Id</string>
+    <string name="menuItemsSearchByUsername">Search by Username</string>
+    <!--BottomNavigationView Items-->
+    <string name="bottomNavigationViewItemsHome">Home</string>
+    <string name="bottomNavigationViewItemsBookmark">Bookmark</string>
+    <!--Profile Activity Strings-->
+    <string name="profileActivityTitle">User Profile</string>
+    <string name="profileActivityUserBioIsNull">(There is no comment)</string>
+    <string name="profileTextViewFollowers">followers</string>
+    <string name="profileTextViewFollowing">following</string>
+    <!--Toast Messages-->
+    <string name="toastSplashLoading">Loading…</string>
+    <string name="toastNoSearchResult">There is no search result</string>
+    <string name="toastBackPressedMessage">Press back again to exit</string>
+    <!--SnackBar Messages-->
+    <string name="snackBarApiLoadSuccess">API Load Success</string>
+    <string name="snackBarApiLoadFail">Unable to Load API\nCheck your Internet Condition or Github Token</string>
+    <string name="snackBarConfirmMessage">OK</string>
+    <string name="snackBarBookmarkAddedMessage">Bookmark added</string>
+    <string name="snackBarBookmarkDeletedMessage">Bookmark deleted</string>
+    <!--SearchView Messages-->
+    <string name="homeSearchViewMessage">Search result will show here</string>
+    <string name="homeSearchViewQueryHint">Search users from Github…</string>
+    <string name="bookmarkSearchViewMessage">Bookmark will show here</string>
+    <string name="bookmarkSearchViewQueryHint">Search bookmark users…</string>
 </resources>

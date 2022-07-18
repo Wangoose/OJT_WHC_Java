@@ -3,10 +3,10 @@
     <group android:id="@+id/group"
         android:checkableBehavior="single">
         <item android:id="@+id/menuSearchByUserId"
-            android:title="@string/menuSearchByUserId"
+            android:title="@string/menuItemsSearchByUserId"
             android:checked="true"/>
         <item android:id="@+id/menuSearchByUsername"
-            android:title="@string/menuSearchByUsername"
+            android:title="@string/menuItemsSearchByUsername"
             android:checked="false"/>
         </group>
 </menu>

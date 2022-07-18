@@ -1,7 +1,6 @@
 package com.wangoose.ojt_whc_java;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 
@@ -42,7 +41,6 @@ public class ProfileSearch {
                 public void onResponse(Call<UserNameResult> call, Response<UserNameResult> response) {
                     if (response.isSuccessful()) {
                         unResult = response.body();
-                        Log.d("testlog", "API Loaded : " + userId);
                         saveUserProfile();
                     }
                 }

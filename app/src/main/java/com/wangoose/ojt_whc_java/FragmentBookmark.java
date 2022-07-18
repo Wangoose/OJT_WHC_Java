@@ -1,12 +1,11 @@
 package com.wangoose.ojt_whc_java;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,9 +49,9 @@ public class FragmentBookmark extends Fragment {
 
         bookmark = new BookmarkMgmt(requireActivity());
 
-        bookmarkView = rootView.findViewById(R.id.view_fragment_bookmark);
+        bookmarkView = rootView.findViewById(R.id.viewFragmentBookmark);
 
-        searchView = rootView.findViewById(R.id.search_view_bookmark);
+        searchView = rootView.findViewById(R.id.searchViewBookmark);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -111,12 +110,14 @@ public class FragmentBookmark extends Fragment {
             adapter.uItemList.clear();
             adapter.uItemList.addAll(searchResult.getItems());
             adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(requireActivity(), R.string.toastNoSearchResult, Toast.LENGTH_SHORT).show();
         }
     }
 
     void refreshBookmark(SearchUsersResult bookmarkUserList) {
         this.bookmarkUserList = bookmarkUserList;
-        tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : "Bookmark will show here.");
+        tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : requireActivity().getString(R.string.bookmarkSearchViewMessage));
         if (adapter.uItemList != null)
             adapter.uItemList.clear();
         if (adapter.uItemList != null && bookmarkUserList.getItems().size() != 0)

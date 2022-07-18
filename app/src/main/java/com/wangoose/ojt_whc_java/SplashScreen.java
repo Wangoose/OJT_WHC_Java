@@ -29,6 +29,8 @@ public class SplashScreen extends AppCompatActivity {
 
     SearchUsersResult bookmarkUserList;
 
+    private static final int delayTimeMillis = 2000;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class SplashScreen extends AppCompatActivity {
         LoadBookmarkTask bookmarkThread = new LoadBookmarkTask();
         bookmarkThread.start();
 
-        Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.toastSplashLoading, Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() { // 2초 delay 후 Intent 시작
             @Override
             public void run() {
@@ -67,7 +69,7 @@ public class SplashScreen extends AppCompatActivity {
                     ie.printStackTrace();
                 }
             }
-        }, 2000); // Handler()
+        }, delayTimeMillis); // Handler()
     } // onCreate()
 
     class LoadBookmarkTask extends Thread {

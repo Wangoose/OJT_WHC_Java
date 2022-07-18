@@ -35,13 +35,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     View profileView;
 
-    boolean bookmark_status = false;
+    private boolean bookmark_status = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        setTitle("User Profile");
+        setTitle(R.string.profileActivityTitle);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnWebProfile = findViewById(R.id.btnWebProfile);
 
-        chkbox = findViewById(R.id.chkbox_star);
+        chkbox = findViewById(R.id.chkboxStar);
 
         ivAvatar = findViewById(R.id.ivAvatar);
 
@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (userItem.getBio() == null) {
             tvBio.setTextColor(Color.GRAY);
-            tvBio.setText("(There is no comment)");
+            tvBio.setText(getString(R.string.profileActivityUserBioIsNull));
         } else {
             tvBio.setText(userItem.getBio());
         }
@@ -94,20 +94,19 @@ public class ProfileActivity extends AppCompatActivity {
                 if (chkbox.isChecked()) {
                     bookmark.addBookmark(userItem.getLogin());
                     chkbox.setChecked(true);
-                    msg += "Bookmark added";
+                    msg += getString(R.string.snackBarBookmarkAddedMessage);
                 } else {
                     bookmark.removeBookmark(userItem.getLogin());
                     chkbox.setChecked(false);
-                    msg += "Bookmark deleted";
+                    msg += getString(R.string.snackBarBookmarkDeletedMessage);
                 }
                 Snackbar sb = Snackbar.make(profileView, msg, Snackbar.LENGTH_SHORT);
-                sb.setAction("OK", new View.OnClickListener() {
+                sb.setAction(getString(R.string.snackBarConfirmMessage), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         sb.dismiss();
                     }
                 });
-//                sb.setAnchorView(R.id.btnav_view);
                 sb.show();
             }
         });

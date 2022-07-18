@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/item_fragment_home"
+        android:id="@+id/itemFragmentHome"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home" />
+        android:title="@string/bottomNavigationViewItemsHome" />
     <item
-        android:id="@+id/item_fragment_bookmark"
+        android:id="@+id/itemFragmentBookmark"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_grade_24"
-        android:title="Bookmark" />
+        android:title="@string/bottomNavigationViewItemsBookmark" />
 </menu>

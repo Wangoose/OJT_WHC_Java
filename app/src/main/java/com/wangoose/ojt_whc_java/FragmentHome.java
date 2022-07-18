@@ -36,6 +36,8 @@ public class FragmentHome extends Fragment {
 
     View homeView;
 
+    private static final int perPage = 20;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,11 +45,11 @@ public class FragmentHome extends Fragment {
 
         bookmark = new BookmarkMgmt(requireActivity());
 
-        homeView = rootView.findViewById(R.id.view_fragment_home);
+        homeView = rootView.findViewById(R.id.viewFragmentHome);
 
         tvMainInfo = rootView.findViewById(R.id.tvMainInfo);
 
-        searchView = rootView.findViewById(R.id.search_view_home);
+        searchView = rootView.findViewById(R.id.searchViewHome);
 
         rfClient = RetrofitClient.getInstance();
         rfInterface = RetrofitClient.getRetrofitInterface();
@@ -55,7 +57,7 @@ public class FragmentHome extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                rfInterface.getSearchResult(query, "20", "1").enqueue(new Callback<SearchUsersResult>() {
+                rfInterface.getSearchResult(query, perPage).enqueue(new Callback<SearchUsersResult>() {
                     @Override
                     public void onResponse(@NonNull Call<SearchUsersResult> call, @NonNull Response<SearchUsersResult> response) {
                         if (response.isSuccessful()) {
@@ -68,28 +70,28 @@ public class FragmentHome extends Fragment {
 
                             tvMainInfo.setText("");
 
-                            Snackbar sb = Snackbar.make(homeView, "API Load Success", Snackbar.LENGTH_LONG);
-                            sb.setAction("OK", new View.OnClickListener() {
+                            Snackbar sb = Snackbar.make(homeView, R.string.snackBarApiLoadSuccess, Snackbar.LENGTH_LONG);
+                            sb.setAction(getString(R.string.snackBarConfirmMessage), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     sb.dismiss();
                                 }
                             });
-                            sb.setAnchorView(R.id.btnav_view);
+                            sb.setAnchorView(R.id.bottomNavigationView);
                             sb.show();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<SearchUsersResult> call, @NonNull Throwable t) {
-                        Snackbar sb = Snackbar.make(homeView, "API Load Failed", Snackbar.LENGTH_LONG);
-                        sb.setAction("OK", new View.OnClickListener() {
+                        Snackbar sb = Snackbar.make(homeView, R.string.snackBarApiLoadFail, Snackbar.LENGTH_LONG);
+                        sb.setAction(R.string.snackBarConfirmMessage, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 sb.dismiss();
                             }
                         });
-                        sb.setAnchorView(R.id.btnav_view);
+                        sb.setAnchorView(R.id.bottomNavigationView);
                         sb.show();
                         t.printStackTrace();
                     }
