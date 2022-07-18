@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -141,29 +144,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            String task = data.getExtras().getString("task");
-            UserItem userItem = (UserItem) data.getExtras().get("userItem");
-            if (task.equals("add"))
-                addBookmark(userItem);
-            else
-                deleteBookmark(userItem.getLogin());
-
-            new Handler().postDelayed(new Runnable() {
+    ActivityResultLauncher<Intent> startActivityResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
                 @Override
-                public void run() {
-                    if (requestCode == 1)
-                        ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
-                    else
-                        ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        String task = result.getData().getStringExtra("task");
+                        UserItem userItem = (UserItem) result.getData().getExtras().get("userItem");
+                        if (task.equals("add"))
+                            addBookmark(userItem);
+                        else
+                            deleteBookmark(userItem.getLogin());
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (result.getData().getIntExtra("requestCode", 0) == 1)
+                                    ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
+                                else
+                                    ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
+                            }
+                        }, 50);
+                    }
                 }
-            }, 50);
-        }
-    }
+    });
 
     void addBookmark(UserItem target) {
         bookmarkUserList.addItems(target);
@@ -208,8 +213,9 @@ public class MainActivity extends AppCompatActivity {
 
     void goProfile(UserItem userItem, int requestCode) {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        intent.putExtra("requestCode", requestCode);
         intent.putExtra("userItem", userItem);
-        startActivityForResult(intent, requestCode);
+        startActivityResult.launch(intent);
     }
 
     @Override
