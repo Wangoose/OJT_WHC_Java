@@ -72,8 +72,10 @@ public class FragmentBookmark extends Fragment {
             public void onClick(View v) {
                 searchView.setQuery("", false);
                 bookmarkUserList = ((MainActivity) requireActivity()).getBookmarkUserList();
-                adapter.uItemList.clear();
-                adapter.uItemList.addAll(bookmarkUserList.getItems());
+                if (adapter.uItemList != null)
+                    adapter.uItemList.clear();
+                if (adapter.uItemList != null && bookmarkUserList.getItems().size() != 0)
+                    adapter.uItemList.addAll(bookmarkUserList.getItems());
                 adapter.notifyDataSetChanged();
             }
         });
@@ -105,16 +107,22 @@ public class FragmentBookmark extends Fragment {
 
     void searchBookmark(List<UserItem> searchUserList, String target) {
         SearchUsersResult searchResult = ((MainActivity) requireActivity()).searchBookmark(searchUserList, target);
-        adapter.uItemList.clear();
-        adapter.uItemList.addAll(searchResult.getItems());
-        adapter.notifyDataSetChanged();
+        if (searchResult.getItems().size() != 0) {
+            adapter.uItemList.clear();
+            adapter.uItemList.addAll(searchResult.getItems());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     void refreshBookmark(SearchUsersResult bookmarkUserList) {
         this.bookmarkUserList = bookmarkUserList;
-        if (bookmarkUserList.getItems().size() != 0)
-            tvBookmarkInfo.setText("");
+        tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : "Bookmark will show here.");
+        if (adapter.uItemList != null)
+            adapter.uItemList.clear();
+        if (adapter.uItemList != null && bookmarkUserList.getItems().size() != 0)
+            adapter.uItemList.addAll(bookmarkUserList.getItems());
         adapter.notifyDataSetChanged();
+
     }
 
     void goProfile(UserItem userItem, int requestCode) {

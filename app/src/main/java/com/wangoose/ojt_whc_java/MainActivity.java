@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     SearchUsersResult bookmarkUserList;
 
+    int searchCondition = 0;
+
     long pressedTime = 0;
 
     @Override
@@ -57,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_fragment_home:
-                        if (fragmentHome == null) {
+                        if (fragmentHome != null) {
+                            // 해당 프래그먼트의 어댑터뷰 refresh
+                            ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
+                            fragmentManager.beginTransaction().show(fragmentHome).commit();
+                        } else {
                             fragmentHome = new FragmentHome();
                             fragmentManager.beginTransaction()
                                     .add(R.id.main_fragment_container, fragmentHome, "HOME")
@@ -66,33 +74,23 @@ public class MainActivity extends AppCompatActivity {
                             // findFragmentByTag 적용을 위해 필요함. reference : https://eitu97.tistory.com/31
                             fragmentManager.executePendingTransactions();
                         }
-
-                        if (fragmentHome != null) {
-                            // 해당 프래그먼트의 어댑터뷰 refresh
-                            ((FragmentHome) fragmentManager.findFragmentByTag("HOME")).refreshHome();
-                            fragmentManager.beginTransaction().show(fragmentHome).commit();
-                        }
-
                         if (fragmentBookmark != null) {
                             fragmentManager.beginTransaction().hide(fragmentBookmark).commit();
                         }
                         break;
                     case R.id.item_fragment_bookmark:
-                        if (fragmentBookmark == null) {
+                        if (fragmentBookmark != null) {
+                            ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
+                            fragmentManager.beginTransaction().show(fragmentBookmark).commit();
+                        } else {
                             fragmentBookmark = new FragmentBookmark().newInstance(bookmarkUserList);
                             fragmentManager.beginTransaction()
                                     .add(R.id.main_fragment_container, fragmentBookmark, "BOOKMARK")
                                     .commit();
                             fragmentManager.executePendingTransactions();
                         }
-
                         if (fragmentHome != null) {
                             fragmentManager.beginTransaction().hide(fragmentHome).commit();
-                        }
-
-                        if (fragmentBookmark != null) {
-                            ((FragmentBookmark) fragmentManager.findFragmentByTag("BOOKMARK")).refreshBookmark(bookmarkUserList);
-                            fragmentManager.beginTransaction().show(fragmentBookmark).commit();
                         }
                         break;
                 }
@@ -102,6 +100,28 @@ public class MainActivity extends AppCompatActivity {
 
         View navBtnHome = btNaView.findViewById(R.id.item_fragment_home);
         navBtnHome.performClick();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mInflater = getMenuInflater();
+        mInflater.inflate(R.menu.item_search_option, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuSearchByUserId:
+                item.setChecked(true);
+                searchCondition = 0;
+                break;
+            case R.id.menuSearchByUsername:
+                item.setChecked(true);
+                searchCondition = 1;
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -168,8 +188,17 @@ public class MainActivity extends AppCompatActivity {
     SearchUsersResult searchBookmark(List<UserItem> searchUserList, String target) {
         List<UserItem> resultItems = new ArrayList<>();
         for (UserItem uItem : searchUserList) {
-            if (uItem.getLogin().contains(target)) {
-                resultItems.add(uItem);
+            switch (searchCondition) {
+                case 0:
+                    if (uItem.getLogin().contains(target))
+                        resultItems.add(uItem);
+                    break;
+                case 1:
+                    if (uItem.getName() == null)
+                        continue;
+                    if (uItem.getName().contains(target))
+                        resultItems.add(uItem);
+                    break;
             }
         }
         SearchUsersResult bookmarkSearchResult = new SearchUsersResult(resultItems);

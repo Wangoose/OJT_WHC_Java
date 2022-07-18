@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OJT_WHC_Java</string>
+    <string name="menuSearchByUserId">Search by User Id</string>
+    <string name="menuSearchByUsername">Search by Username</string>
 </resources>
