@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -26,7 +26,7 @@ public class SearchUsersResult implements Parcelable {
 
     private boolean isBookmark = false;
 
-    protected SearchUsersResult(List<UserItem> items) {
+    public SearchUsersResult(List<UserItem> items) {
         this.items = items;
     }
 

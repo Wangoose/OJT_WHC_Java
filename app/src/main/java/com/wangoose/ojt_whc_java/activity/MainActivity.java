@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.activity;
 
 import android.content.Intent;
 import android.graphics.Rect;
@@ -23,6 +23,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.fragment.FragmentBookmark;
+import com.wangoose.ojt_whc_java.fragment.FragmentHome;
+import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
+import com.wangoose.ojt_whc_java.dto.UserItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,11 +174,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-    void addBookmark(UserItem target) {
+    public void addBookmark(UserItem target) {
         bookmarkUserList.addItems(target);
     }
 
-    void deleteBookmark(String target) {
+    public void deleteBookmark(String target) {
         List<UserItem> uItemList = bookmarkUserList.getItems();
         boolean signal = true;
         for (int i = 0; i < uItemList.size() && signal; i++) { // Linear Search
@@ -184,11 +190,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    SearchUsersResult getBookmarkUserList() {
+    public SearchUsersResult getBookmarkUserList() {
         return bookmarkUserList;
     }
 
-    SearchUsersResult searchBookmark(List<UserItem> searchUserList, String target) {
+    public SearchUsersResult searchBookmark(List<UserItem> searchUserList, String target) {
         List<UserItem> resultItems = new ArrayList<>();
         for (UserItem uItem : searchUserList) {
             switch (searchCondition) {
@@ -209,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         return bookmarkSearchResult;
     }
 
-    void goProfile(UserItem userItem, int requestCode) {
+    public void goProfile(UserItem userItem, int requestCode) {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         intent.putExtra("requestCode", requestCode);
         intent.putExtra("userItem", userItem);

@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.dto.UserItem;
 
 public class ProfileActivity extends AppCompatActivity {
 

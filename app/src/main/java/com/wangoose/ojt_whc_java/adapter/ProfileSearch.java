@@ -1,8 +1,13 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.adapter;
 
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
+import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
+import com.wangoose.ojt_whc_java.retrofit.RetrofitInterface;
+import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.dto.UserNameResult;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 
 import retrofit2.Call;
 import retrofit2.Callback;

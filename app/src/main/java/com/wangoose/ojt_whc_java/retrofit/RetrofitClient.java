@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

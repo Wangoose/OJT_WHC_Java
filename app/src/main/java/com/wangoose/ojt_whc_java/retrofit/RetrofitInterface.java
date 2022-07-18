@@ -1,4 +1,8 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.retrofit;
+
+import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
+import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.dto.UserNameResult;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

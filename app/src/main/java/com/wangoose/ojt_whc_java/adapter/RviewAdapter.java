@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
+import com.wangoose.ojt_whc_java.dto.UserItem;
+import com.wangoose.ojt_whc_java.fragment.FragmentBookmark;
+import com.wangoose.ojt_whc_java.fragment.FragmentHome;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
 
 import java.util.List;
 
@@ -25,7 +31,7 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
     FragmentHome fragmentHome;
 
-    List<UserItem> uItemList;
+    public List<UserItem> uItemList;
 
     ProfileSearch pSearch;
 

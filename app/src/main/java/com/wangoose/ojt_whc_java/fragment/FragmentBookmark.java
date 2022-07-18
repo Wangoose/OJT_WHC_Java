@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,13 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.adapter.RviewAdapter;
+import com.wangoose.ojt_whc_java.activity.MainActivity;
+import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
+import com.wangoose.ojt_whc_java.dto.UserItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +87,9 @@ public class FragmentBookmark extends Fragment {
         if (bookmarkUserList.getItems().size() != 0)
             tvBookmarkInfo.setText("");
 
+        if (bookmarkUserList.getItems().size() == 0)
+            bookmarkUserList.createEmptyItems();
+
         List<UserItem> newUserItems = new ArrayList<>(bookmarkUserList.getItems());
         bookmarkUserList = new SearchUsersResult(newUserItems);
         bookmarkUserList.setBookmarkList(true);
@@ -96,11 +106,11 @@ public class FragmentBookmark extends Fragment {
         return rootView;
     }
 
-    void addBookmark(UserItem target) {
+    public void addBookmark(UserItem target) {
         ((MainActivity) requireActivity()).addBookmark(target);
     }
 
-    void deleteBookmark(String target) {
+    public void deleteBookmark(String target) {
         ((MainActivity) requireActivity()).deleteBookmark(target);
     }
 
@@ -115,18 +125,19 @@ public class FragmentBookmark extends Fragment {
         }
     }
 
-    void refreshBookmark(SearchUsersResult bookmarkUserList) {
+    public void refreshBookmark(SearchUsersResult bookmarkUserList) {
         this.bookmarkUserList = bookmarkUserList;
         tvBookmarkInfo.setText(bookmarkUserList.getItems().size() != 0 ? "" : requireActivity().getString(R.string.bookmarkSearchViewMessage));
-        if (adapter.uItemList != null)
+        if (adapter.uItemList == null)
+            adapter.uItemList = new ArrayList<>();
+        else
             adapter.uItemList.clear();
         if (adapter.uItemList != null && bookmarkUserList.getItems().size() != 0)
             adapter.uItemList.addAll(bookmarkUserList.getItems());
         adapter.notifyDataSetChanged();
-
     }
 
-    void goProfile(UserItem userItem, int requestCode) {
+    public void goProfile(UserItem userItem, int requestCode) {
         ((MainActivity) requireActivity()).goProfile(userItem, requestCode);
     }
 }

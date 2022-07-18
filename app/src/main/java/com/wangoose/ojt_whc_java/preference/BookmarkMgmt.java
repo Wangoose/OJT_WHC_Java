@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.wangoose.ojt_whc_java;
+package com.wangoose.ojt_whc_java.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.wangoose.ojt_whc_java.preference.BookmarkMgmt;
+import com.wangoose.ojt_whc_java.R;
+import com.wangoose.ojt_whc_java.retrofit.RetrofitClient;
+import com.wangoose.ojt_whc_java.adapter.RviewAdapter;
+import com.wangoose.ojt_whc_java.activity.MainActivity;
+import com.wangoose.ojt_whc_java.dto.SearchUsersResult;
+import com.wangoose.ojt_whc_java.dto.UserItem;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,20 +122,20 @@ public class FragmentHome extends Fragment {
         return rootView;
     }
 
-    void addBookmark(UserItem target) {
+    public void addBookmark(UserItem target) {
         ((MainActivity) requireActivity()).addBookmark(target);
     }
 
-    void deleteBookmark(String target) {
+    public void deleteBookmark(String target) {
         ((MainActivity) requireActivity()).deleteBookmark(target);
     }
 
-    void refreshHome() {
+    public void refreshHome() {
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
 
-    void goProfile(UserItem userItem, int requestCode) {
+    public void goProfile(UserItem userItem, int requestCode) {
         ((MainActivity) requireActivity()).goProfile(userItem, requestCode);
     }
 }
