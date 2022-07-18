@@ -1,4 +1,3 @@
-
 package com.wangoose.ojt_whc_java;
 
 import android.os.Parcel;

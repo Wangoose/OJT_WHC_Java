@@ -23,8 +23,7 @@ public class FragmentHome extends Fragment {
 
     BookmarkMgmt bookmark;
 
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
+    RetrofitClient rfClient = RetrofitClient.getInstance();
 
     RviewAdapter adapter;
 
@@ -33,8 +32,6 @@ public class FragmentHome extends Fragment {
     SearchView searchView;
 
     TextView tvMainInfo;
-
-    View homeView;
 
     private static final int perPage = 20;
 
@@ -45,32 +42,33 @@ public class FragmentHome extends Fragment {
 
         bookmark = new BookmarkMgmt(requireActivity());
 
-        homeView = rootView.findViewById(R.id.viewFragmentHome);
-
         tvMainInfo = rootView.findViewById(R.id.tvMainInfo);
 
         searchView = rootView.findViewById(R.id.searchViewHome);
 
-        rfClient = RetrofitClient.getInstance();
-        rfInterface = RetrofitClient.getRetrofitInterface();
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                rfInterface.getSearchResult(query, perPage).enqueue(new Callback<SearchUsersResult>() {
+                RetrofitClient.getRetrofitInterface().getSearchResult(query, perPage).enqueue(new Callback<SearchUsersResult>() {
                     @Override
                     public void onResponse(@NonNull Call<SearchUsersResult> call, @NonNull Response<SearchUsersResult> response) {
                         if (response.isSuccessful()) {
                             uResult = response.body();
 
-                            adapter = new RviewAdapter(getActivity(), FragmentHome.this, homeView, uResult, bookmark);
+                            adapter = new RviewAdapter(getActivity(),
+                                        FragmentHome.this,
+                                                        rootView.findViewById(R.id.viewFragmentHome),
+                                                        uResult,
+                                                        bookmark);
                             RecyclerView rView = rootView.findViewById(R.id.recycler1);
                             rView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             rView.setAdapter(adapter);
 
                             tvMainInfo.setText("");
 
-                            Snackbar sb = Snackbar.make(homeView, R.string.snackBarApiLoadSuccess, Snackbar.LENGTH_LONG);
+                            Snackbar sb = Snackbar.make(rootView.findViewById(R.id.viewFragmentHome),
+                                                        R.string.snackBarApiLoadSuccess,
+                                                        Snackbar.LENGTH_LONG);
                             sb.setAction(getString(R.string.snackBarConfirmMessage), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -84,7 +82,9 @@ public class FragmentHome extends Fragment {
 
                     @Override
                     public void onFailure(@NonNull Call<SearchUsersResult> call, @NonNull Throwable t) {
-                        Snackbar sb = Snackbar.make(homeView, R.string.snackBarApiLoadFail, Snackbar.LENGTH_LONG);
+                        Snackbar sb = Snackbar.make(rootView.findViewById(R.id.viewFragmentHome),
+                                                    R.string.snackBarApiLoadFail,
+                                                    Snackbar.LENGTH_LONG);
                         sb.setAction(R.string.snackBarConfirmMessage, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -24,8 +24,7 @@ public class SplashScreen extends AppCompatActivity {
 
     List<UserItem> userItemParcel;
 
-    RetrofitClient rfClient;
-    RetrofitInterface rfInterface;
+    RetrofitClient rfClient = RetrofitClient.getInstance();
 
     SearchUsersResult bookmarkUserList;
 
@@ -43,9 +42,6 @@ public class SplashScreen extends AppCompatActivity {
         ImageView ivLogo = findViewById(R.id.ivSplashLogo);
         Animation fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         ivLogo.startAnimation(fadeInAnim);
-
-        rfClient = RetrofitClient.getInstance();
-        rfInterface = RetrofitClient.getRetrofitInterface();
 
         LoadBookmarkTask bookmarkThread = new LoadBookmarkTask();
         bookmarkThread.start();
@@ -76,7 +72,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         public void run() {
             for (String userId : bookmark.getBookmark().keySet()) {
-                rfInterface.getUserNameResultToItems(userId).enqueue(new Callback<UserItem>() {
+                RetrofitClient.getRetrofitInterface().getUserNameResultToItems(userId).enqueue(new Callback<UserItem>() {
                     @Override
                     public void onResponse(Call<UserItem> call, Response<UserItem> response) {
                         if (response.isSuccessful()) {
@@ -90,7 +86,7 @@ public class SplashScreen extends AppCompatActivity {
                         t.printStackTrace();
                     }
                 });
-            }
-        }
-    }
+            } // for
+        } // run()
+    } // LoadBookmarkTask
 }

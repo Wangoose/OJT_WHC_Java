@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     View profileView;
 
     private boolean bookmark_status = false;
+    int requestCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userItem = (UserItem) intent.getParcelableExtra("userItem");
+
+        requestCode = intent.getIntExtra("requestCode", 0);
 
         btnWebProfile = findViewById(R.id.btnWebProfile);
 
@@ -67,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         chkbox.setChecked(bookmark.isBookmarked(userItem.getLogin()));
 
-        bookmark_status = chkbox.isChecked();
+        bookmark_status = chkbox.isChecked(); // 최초 북마크 상태 기록
 
         Glide.with(this)
                 .load(userItem.getAvatarUrl())
@@ -124,11 +127,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // reference : https://www.geeksforgeeks.org/how-to-add-and-customize-back-button-of-action-bar-in-android/
-        switch (item.getItemId()) {
-            case android.R.id.home: // Appbar 상단 뒤로가기 버튼 눌렀을 시
-                onBackPressed();
-                return true;
-        }
+        if (item.getItemId() == android.R.id.home) // Appbar 상단 뒤로가기 버튼 눌렀을 시
+            onBackPressed();
         return super.onOptionsItemSelected(item);
     }
 
@@ -137,8 +137,8 @@ public class ProfileActivity extends AppCompatActivity {
         if (!(chkbox.isChecked() == bookmark_status)) { // 결과적으로 북마크 값이 바뀌었다면
             Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
             intent.putExtra("userItem", userItem);
-            String task = chkbox.isChecked() ? "add" : "delete";
-            intent.putExtra("task", task);
+            intent.putExtra("task", chkbox.isChecked() ? "add" : "delete");
+            intent.putExtra("requestCode", requestCode);
             setResult(RESULT_OK, intent);
         }
         super.onBackPressed();

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     SearchUsersResult bookmarkUserList;
 
-    private int searchCondition = 0;
+    private int searchCondition = 0; // 0 : User ID, 1 : Username
     private long pressedTime = 0;
 
     @Override
@@ -100,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        View navBtnHome = btNaView.findViewById(R.id.itemFragmentHome);
-        navBtnHome.performClick();
+        this.findViewById(R.id.itemFragmentHome).performClick(); // onCreate - Home Fragment initialize
     }
 
     @Override

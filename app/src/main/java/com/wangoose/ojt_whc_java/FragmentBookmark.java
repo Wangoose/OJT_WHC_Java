@@ -29,8 +29,6 @@ public class FragmentBookmark extends Fragment {
 
     TextView tvBookmarkInfo;
 
-    View bookmarkView;
-
     public static FragmentBookmark newInstance(SearchUsersResult bookmarkUserList) {
         FragmentBookmark fb = new FragmentBookmark();
         Bundle bundle = new Bundle();
@@ -48,8 +46,6 @@ public class FragmentBookmark extends Fragment {
             bookmarkUserList = (SearchUsersResult) getArguments().getParcelable("bookmarkUserList");
 
         bookmark = new BookmarkMgmt(requireActivity());
-
-        bookmarkView = rootView.findViewById(R.id.viewFragmentBookmark);
 
         searchView = rootView.findViewById(R.id.searchViewBookmark);
 
@@ -88,7 +84,11 @@ public class FragmentBookmark extends Fragment {
         bookmarkUserList = new SearchUsersResult(newUserItems);
         bookmarkUserList.setBookmarkList(true);
 
-        adapter = new RviewAdapter(getActivity(), FragmentBookmark.this, bookmarkView, bookmarkUserList, bookmark);
+        adapter = new RviewAdapter(getActivity(),
+                FragmentBookmark.this,
+                                    rootView.findViewById(R.id.viewFragmentBookmark),
+                                    bookmarkUserList,
+                                    bookmark);
         RecyclerView rView = rootView.findViewById(R.id.recycler2);
         rView.setLayoutManager(new LinearLayoutManager(getActivity()));
         rView.setAdapter(adapter);

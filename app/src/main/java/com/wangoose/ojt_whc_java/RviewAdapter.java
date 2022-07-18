@@ -1,5 +1,4 @@
 package com.wangoose.ojt_whc_java;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

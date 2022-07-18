@@ -2,7 +2,7 @@
     <!--Manifests-->
     <string name="app_name">OJT_WHC_Java</string>
     <!--Menu Options Items-->
-    <string name="menuItemsSearchByUserId">Search by User Id</string>
+    <string name="menuItemsSearchByUserId">Search by User ID</string>
     <string name="menuItemsSearchByUsername">Search by Username</string>
     <!--BottomNavigationView Items-->
     <string name="bottomNavigationViewItemsHome">Home</string>
