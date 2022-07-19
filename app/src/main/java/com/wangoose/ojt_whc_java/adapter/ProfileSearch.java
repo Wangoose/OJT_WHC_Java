@@ -70,11 +70,11 @@ public class ProfileSearch {
         Glide.with(context)
                 .load(userItem.getAvatarUrl())
                 .circleCrop()
-                .into(holder.ivAvatar);
+                .into(holder.binding.ivAvatar);
 
-        holder.chkbox.setChecked(bookmark.isBookmarked(userId));
-        holder.tvName.setText(userItem.getName());
-        holder.tvUserId.setText(userId);
-        holder.tvBio.setText(userItem.getBio());
+        holder.binding.chkboxStar.setChecked(bookmark.isBookmarked(userId));
+        holder.binding.tvName.setText(userItem.getName());
+        holder.binding.tvUserId.setText(userId);
+        holder.binding.tvBio.setText(userItem.getBio());
     }
 }

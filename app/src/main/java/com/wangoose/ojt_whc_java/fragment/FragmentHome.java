@@ -56,18 +56,17 @@ public class FragmentHome extends Fragment {
                             uResult = response.body();
 
                             adapter = new RviewAdapter(requireActivity(),
-                                                        FragmentHome.this,
-                                                        binding.viewFragmentHome,
-                                                        uResult,
-                                                        bookmark);
+                                    FragmentHome.this,
+                                    binding.viewFragmentHome,
+                                    uResult);
                             binding.recycler1.setLayoutManager(new LinearLayoutManager(requireActivity()));
                             binding.recycler1.setAdapter(adapter);
 
                             binding.tvMainInfo.setText("");
 
                             Snackbar sb = Snackbar.make(binding.viewFragmentHome,
-                                                        R.string.snackBarApiLoadSuccess,
-                                                        Snackbar.LENGTH_LONG);
+                                    R.string.snackBarApiLoadSuccess,
+                                    Snackbar.LENGTH_LONG);
                             sb.setAction(getString(R.string.snackBarConfirmMessage), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -82,8 +81,8 @@ public class FragmentHome extends Fragment {
                     @Override
                     public void onFailure(@NonNull Call<SearchUsersResult> call, @NonNull Throwable t) {
                         Snackbar sb = Snackbar.make(binding.viewFragmentHome,
-                                                    R.string.snackBarApiLoadFail,
-                                                    Snackbar.LENGTH_LONG);
+                                R.string.snackBarApiLoadFail,
+                                Snackbar.LENGTH_LONG);
                         sb.setAction(R.string.snackBarConfirmMessage, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

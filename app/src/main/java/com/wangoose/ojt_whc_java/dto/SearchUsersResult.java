@@ -82,13 +82,23 @@ public class SearchUsersResult implements Parcelable {
         this.items = items;
     }
 
-    public void createEmptyItems() { items = new ArrayList<UserItem>(); }
+    public void createEmptyItems() {
+        items = new ArrayList<UserItem>();
+    }
 
-    public void addItems(UserItem target) { items.add(target); }
+    public void addItems(UserItem target) {
+        items.add(target);
+    }
 
-    public void removeItems(int index) { items.remove(index); }
+    public void removeItems(int index) {
+        items.remove(index);
+    }
 
-    public void setBookmarkList(boolean signal) { isBookmark = signal; }
+    public void setBookmarkList(boolean signal) {
+        isBookmark = signal;
+    }
 
-    public boolean isBookmarkList() { return isBookmark; }
+    public boolean isBookmarkList() {
+        return isBookmark;
+    }
 }

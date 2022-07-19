@@ -124,9 +124,13 @@ public class UserItem implements Parcelable {
     // 상세 정보들이 저장된 프로필인지 상태 판단
     private boolean loaded = false;
 
-    public void setLoaded(boolean flag) { loaded = flag; }
+    public void setLoaded(boolean flag) {
+        loaded = flag;
+    }
 
-    public boolean isLoaded() { return loaded; }
+    public boolean isLoaded() {
+        return loaded;
+    }
 
     public String getName() {
         return name;

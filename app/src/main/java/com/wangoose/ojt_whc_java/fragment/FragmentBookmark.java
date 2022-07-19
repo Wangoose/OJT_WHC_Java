@@ -89,9 +89,8 @@ public class FragmentBookmark extends Fragment {
 
         adapter = new RviewAdapter(requireActivity(),
                 FragmentBookmark.this,
-                                    binding.viewFragmentBookmark,
-                                    bookmarkUserList,
-                                    bookmark);
+                binding.viewFragmentBookmark,
+                bookmarkUserList);
         binding.recycler2.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.recycler2.setAdapter(adapter);
 
